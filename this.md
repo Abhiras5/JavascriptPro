@@ -53,3 +53,26 @@ j(); // value of j is window object, because here s() calling in global scope an
 
 # Binding Arguments
 - using bind() we can bind function's arguments
+
+# Binding with event listerners
+
+```
+const btn = document.querySelector("#clickMe");
+btn.addEventListener("click", person.job.bind(person, "La LA La"));
+
+```
+# Key Takeaways
+
+```
+function greet(){
+    console.log(`${this.username} says Hello!!!`);
+}
+
+const customer = {
+    username: "Nightman";
+    sayHi: greet,
+}
+
+customer.sayHi(); // Nightman says Hello
+
+```

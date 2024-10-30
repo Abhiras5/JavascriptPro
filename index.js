@@ -36,7 +36,7 @@ const person = {
   city: "Pune",
   job: function(surName = ""){
       console.log("THIS is: ", this)
-      return `${this.name} ${surName} is UI developer`;
+      console.log(`${this.name} ${surName} is UI developer`)
   }
 }
 
@@ -71,3 +71,63 @@ console.log("#binding arguments");
 console.log("#sum1",sum1(15)); // here first argument of sum is bound to 15 when you call sum1
 console.log("#sum2",sum2(5));
 console.log("#binding arguments END");
+
+// bind with event listeners
+const btn = document.querySelector("#clickMe");
+btn.addEventListener("click", person.job.bind(person, "La LA La"));
+
+/***** Arrow functions START */
+
+const obj = {
+  count: 10,
+  doSomethingLater() {
+    setTimeout(function () {
+      // the function executes on the window scope
+      this.count++;
+      console.log(this.count); // logs NaN
+    }, 300);
+  },
+};
+
+obj.doSomethingLater(); //logs NaN, because the property "count" is not in the window scope.
+
+// but with arrow functions, the this scope is more eaisly preserved:
+
+const obj1 = {
+  count: 10,
+  doSomethingLater() {
+    // The method syntax binds "this" to the "obj" context.
+    setTimeout(() => {
+      // Since the arrow function doesn't have its own binding and
+      // setTimeout (as a function call) doesn't create a binding
+      // itself, the "obj" context of the outer method is used.
+      this.count++;
+      console.log(this.count);
+    }, 300);
+  },
+};
+
+obj1.doSomethingLater(); // logs 11
+
+/*  Arrow functions END*/
+
+const butters = {
+  firstName: "Butters",
+  lastName: "Cluckly",
+  greet: function(){
+      return `Hello ${this.firstName} ${this.lastName}`
+  }
+}
+
+const fluffy = {
+  firstName: "Fluffy",
+  lastName: "Meowson",
+}
+
+function greetFluffy(){
+  // Invoke the greet method but instead of returning "Hello Butters Cluckly", return "Hello Fluffy Meowson". Do not modify the fluffy object above. 
+  //console.log(fluffy.greet()); // fluffy is not a function;
+  console.log(butters.greet.call(fluffy));
+}
+
+greetFluffy();
